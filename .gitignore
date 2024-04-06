@@ -342,3 +342,4 @@ ASALocalRun/
 *.bin
 *.db
 *.db-shm
+*.db-wal

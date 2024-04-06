@@ -16,15 +16,11 @@ using System.Threading.Tasks;
 public class CustomersController : ControllerBase
 {
     private readonly IRepository<Customer> _customerRepository;
-    private readonly IRepository<Preference> _preferenceRepository;
-    private readonly IRepository<PromoCode> _promoCodeRepository;
     private readonly IRepository<CustomerPreference> _customerPreferencesRepository;
 
-    public CustomersController(IRepository<Customer> customerRepository, IRepository<Preference> preferenceRepository, IRepository<PromoCode> promoCodeRepository, IRepository<CustomerPreference> customerPreferencesRepository)
+    public CustomersController(IRepository<Customer> customerRepository, IRepository<CustomerPreference> customerPreferencesRepository)
     {
         _customerRepository = customerRepository;
-        _preferenceRepository = preferenceRepository;
-        _promoCodeRepository = promoCodeRepository;
         _customerPreferencesRepository = customerPreferencesRepository;
     }
 

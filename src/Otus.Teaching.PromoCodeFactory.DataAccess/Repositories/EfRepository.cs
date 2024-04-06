@@ -37,7 +37,7 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Repositories
         {
             var itemToDelete = await _dbSet.Where(x => x.Id == id).ToListAsync();
 
-            if (itemToDelete.Any())
+            if (itemToDelete.Count != 0)
             {
                 foreach (var item in itemToDelete)
                 {
@@ -50,7 +50,7 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Repositories
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.AsNoTracking().ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(Guid id)
