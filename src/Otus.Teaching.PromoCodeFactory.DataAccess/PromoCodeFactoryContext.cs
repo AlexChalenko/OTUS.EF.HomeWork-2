@@ -17,6 +17,7 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess
 
         public PromoCodeFactoryContext(DbContextOptions<PromoCodeFactoryContext> options) : base(options) { }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -32,7 +33,6 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseLazyLoadingProxies();
         }
     }
 }

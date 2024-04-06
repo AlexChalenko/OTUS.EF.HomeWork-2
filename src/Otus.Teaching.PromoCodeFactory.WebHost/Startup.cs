@@ -26,7 +26,7 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
         {
             services.AddControllers();
 
-            services.AddDbContext<DbContext, PromoCodeFactoryContext>(options => options.UseSqlite(_configuration.GetConnectionString("SQLiteConnection")));
+            services.AddDbContext<DbContext, PromoCodeFactoryContext>(options => options.UseLazyLoadingProxies().UseSqlite(_configuration.GetConnectionString("SQLiteConnection")));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
             services.AddOpenApiDocument(options =>
