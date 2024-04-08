@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Otus.Teaching.PromoCodeFactory.Core.Domain;
 using Otus.Teaching.PromoCodeFactory.Core.Domain.Administration;
 using Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Otus.Teaching.PromoCodeFactory.DataAccess.Data
 {
@@ -16,7 +17,7 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Data
                 Email = "owner@somemail.ru",
                 FirstName = "Иван",
                 LastName = "Сергеев",
-                Role = Roles.FirstOrDefault(x => x.Name == "Admin"),
+                RoleId = Roles.FirstOrDefault(x => x.Name == "Admin").Id,
                 AppliedPromocodesCount = 5
             },
             new Employee()
@@ -25,7 +26,7 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Data
                 Email = "andreev@somemail.ru",
                 FirstName = "Петр",
                 LastName = "Андреев",
-                Role = Roles.FirstOrDefault(x => x.Name == "PartnerManager"),
+                RoleId = Roles.FirstOrDefault(x => x.Name == "PartnerManager").Id,
                 AppliedPromocodesCount = 10
             },
         };
@@ -45,7 +46,7 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Data
                 Description = "Партнерский менеджер"
             }
         };
-        
+
         public static IEnumerable<Preference> Preferences => new List<Preference>()
         {
             new Preference()
@@ -78,12 +79,67 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Data
                         Email = "ivan_sergeev@mail.ru",
                         FirstName = "Иван",
                         LastName = "Петров",
-                        //TODO: Добавить предзаполненный список предпочтений
+                        
+                        //CustomerPreferences = new List<CustomerPreference>()
+                        //{
+                        //    Preferences.FirstOrDefault(x => x.Name == "Театр"),
+                        //    Preferences.FirstOrDefault(x => x.Name == "Семья")
+                        //},
                     }
                 };
 
                 return customers;
             }
         }
+
+        public static List<CustomerPreference> CustomerPreferences
+        {
+            get
+            {
+                var customerPereference = new List<CustomerPreference>()
+                {
+                    new CustomerPreference()
+                    {
+                        Id = Guid.NewGuid(),
+                        CustomerId=Guid.Parse("a6c8c6b1-4349-45b0-ab31-244740aaf0f0"),
+                        PreferenceId=Guid.Parse("ef7f299f-92d7-459f-896e-078ed53ef99c")
+                    },
+                    new CustomerPreference()
+                    {
+                        Id = Guid.NewGuid(),
+                        CustomerId=Guid.Parse("a6c8c6b1-4349-45b0-ab31-244740aaf0f0"),
+                        PreferenceId=Guid.Parse("c4bda62e-fc74-4256-a956-4760b3858cbd")
+                    },
+
+                };
+                return customerPereference;
+            }
+        }
+
+        public static IEnumerable<PromoCode> PromoCodes => new List<PromoCode>()
+        {
+            new PromoCode()
+            {
+                Id = Guid.NewGuid(),
+                Code = "THEATER-123",
+                ServiceInfo = "Скидка 10% на театральные услуги",
+                PartnerManagerId = Employees.FirstOrDefault(x => x.RoleId == Roles.Where(r=> r.Name == "PartnerManager").First().Id).Id,
+                PreferenceId = Preferences.FirstOrDefault(x => x.Name == "Театр").Id,
+                CustomerId = Customers.FirstOrDefault().Id,
+                BeginDate = DateTime.Now.AddDays(-10),
+                EndDate = DateTime.Now.AddDays(30)
+            },
+            new PromoCode()
+            {
+                Id = Guid.NewGuid(),
+                Code = "FAMILY-456",
+                ServiceInfo = "Скидка 20% на все семейные услуги",
+                PartnerManagerId = Employees.FirstOrDefault(x => x.RoleId == Roles.Where(r=> r.Name == "PartnerManager").First().Id).Id,
+                PreferenceId = Preferences.FirstOrDefault(x => x.Name == "Семья").Id,
+                CustomerId = Customers.FirstOrDefault().Id,
+                BeginDate = DateTime.Now.AddDays(-10),
+                EndDate = DateTime.Now.AddDays(60)
+            }
+        };
     }
 }
